@@ -1,0 +1,432 @@
+{
+  "ApplicationName": "TranspasoKw11",
+  "DisplayName": "TranspasoKw11",
+  "Description": "Representa el transpaso básico de Kw entre un comprador y un vendedor",
+  "ApplicationRoles": [
+    {
+      "Name": "Vendedor",
+      "Description": "Usuario que dispone de Kw para vender"
+    },
+    {
+      "Name": "Comprador",
+      "Description": "Usuario que quiere comprar Kw"
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "TranspasoKw11",
+      "DisplayName": "TranspasoKw",
+      "Description": "lógica de la aplicación para realizar el transpaso entre un comprador y un vendedor",
+      "Initiators": [ "Comprador" ],
+      "StartState":  "PendienteDeCompra",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "estado del contrato",
+          "Type": {
+            "Name": "state"
+          }
+        },
+        {
+          "Name": "KwDisponibles", 
+          "DisplayName": "Kw disponibles",
+          "Description": "Kw disponibles del comprador",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "KwVendedor", 
+          "DisplayName": "Kw disponibles del vendedor",
+          "Description": "Kw disponibles de un vendedor",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "KwBici", 
+          "DisplayName": "Kw Bici",
+          "Description": "Kw necesarios para cargar una bici",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "KwCoche", 
+          "DisplayName": "Kw Coche",
+          "Description": "Kw necesarios para cargar un coche",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "KwMonopatin", 
+          "DisplayName": "Kw Monopatín",
+          "Description": "Kw necesarios para cargar un monopatín",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "KwCarga", 
+          "DisplayName": "Kw carga elegida",
+          "Description": "Kw necesarios para cargar un monopatín o un coche o una bici",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "SaldoComprador",
+          "DisplayName": "Saldo comprador",
+          "Description": "El dinero del que dispone el comprador para gastar en Kw",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "SaldoVendedor",
+          "DisplayName": "Ganancias vendedor",
+          "Description": "El dinero que gana el vendedor de las transacciones ",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "PrecioKw",
+          "DisplayName": "Precio Kw/h",
+          "Description": "Precio en € del kw/h de la energía comprada",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "Vendedor",
+          "DisplayName": "Vendedor",
+          "Description": "usuario que dispone de Kw para venderlos",
+          "Type": {
+            "Name": "Vendedor"
+          }
+        },
+        {
+          "Name": "Comprador",
+          "DisplayName": "Comprador",
+          "Description": "usuario que quiere comprar Kw",
+          "Type": {
+            "Name": "Comprador"
+          }
+        },
+        {
+          "Name": "Gasto", 
+          "DisplayName": "Tipo de gasto",
+          "Description": "El comprador puede gastar Kw en cargar una bici, un coche o un monopatín",
+          "Type": {
+            "Name": "enum",
+            "EnumValues": ["CargarBicicletaElectrica", "CargarCocheElectrico", "CargarMonopatinElectrico"]
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "saldoComprador",
+            "Description": "Dinero del que dispone el comprador para gastar en Kw",
+            "DisplayName": "Saldo comprador ",
+            "Type": {
+              "Name": "money"
+            }
+          },
+          {
+            "Name": "vendedor",
+            "Description": "Vendedor",
+            "DisplayName": "Vendedor",
+            "Type": {
+              "Name": "Vendedor"
+            }
+          }
+        ]
+      },
+      "Functions": [
+        {
+          "Name": "AnadirSaldo",
+          "DisplayName": "Añadir saldo",
+          "Description": "El comprador añade saldo disponible para gastar en Kw",
+          "Parameters": [
+            {
+              "Name": "saldo",
+              "Description": "dinero añadido al saldo del comprador",
+              "DisplayName": "Dinero a añadir",
+              "Type": {
+                "Name": "money"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "AnadirKw",
+          "DisplayName": "Añadir Kw",
+          "Description": "El vendedor añade kw para poder vender",
+          "Parameters": [
+            {
+              "Name": "kw",
+              "Description": "kw añadidos del vendedor",
+              "DisplayName": "kw a añadir",
+              "Type": {
+                "Name": "money"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Terminar",
+          "DisplayName": "Terminar",
+          "Description": "El comprador puede dar por terminado el ciclo",
+          "Parameters": []
+        },
+        {
+          "Name": "RealizarCompra",
+          "DisplayName": "Realizar compra",
+          "Description": "Realizar compra Kw",
+          "Parameters": [
+            {
+              "Name": "kwsolicitados",
+              "Description": "Cantidad de Kw que quiere comprar el comprador",
+              "DisplayName": "Kw/h solicitados",
+              "Type": {
+                "Name": "money"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "FijarPrecio",
+          "DisplayName": "Fijar Precio Kw/h",
+          "Description": "Los vendedores fijan los precios del Kw/h",
+          "Parameters": [
+            {
+              "Name": "precio",
+              "Description": "€ que cuesta 1 Kw",
+              "DisplayName": "Precio Kw",
+              "Type": {
+                "Name": "money" 
+              }
+            },
+            {
+              "Name": "kw",
+              "Description": "kw añadidos del vendedor",
+              "DisplayName": "kw a añadir",
+              "Type": {
+                "Name": "money"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "GastarKw",
+          "DisplayName": "GastarKw",
+          "Description": "El comprador gasta los Kw que ha adquirido",
+          "Parameters": [
+            {
+              "Name": "cantidad",
+              "Description": "Kw que gasta el comprador",
+              "DisplayName": "Kw a consumir",
+              "Type": {
+                "Name": "money"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "GastarEnCargar",
+          "DisplayName": "GastarEnCargar",
+          "Description": "El comprador gasta los Kw en cargar una bici, un coche  un monopatin",
+          "Parameters": [
+            {
+              "Name": "carga",
+              "Description": "Tipo de vehículo que decide cargar el consumidor",
+              "DisplayName": "Tipo de carga",
+              "Type": {
+                "Name": "enum",
+                "EnumValues": ["CargarBicicletaElectrica", "CargarCocheElectrico", "CargarMonopatinElectrico"]
+              }
+            }
+          ]
+        }
+      ],
+      "States": [
+        {
+          "Name": "PendienteDeCompra",
+          "DisplayName": "Pendiente de compra",
+          "Description": "Estado inicial",
+          "PercentComplete": 25, 
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "El comprador puede añadir más saldo",
+              "Function": "AnadirSaldo",
+              "NextStates": [ "PendienteDeCompra" ],
+              "DisplayName": "Añadir saldo"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": ["Vendedor"],
+              "Description": "los vendedores fijan los precios de sus energías",
+              "Function": "FijarPrecio",
+              "NextStates": [ "PrecioFijado" ],
+              "DisplayName": "Fijar precios por Kw"
+            }
+          ]
+        },
+        {
+          "Name": "PrecioFijado",
+          "DisplayName": "Precio fijado",
+          "Description": "Estado al que se llega cuando los vendedores fijan los precios de su energía",
+          "PercentComplete": 50, 
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "El comprador puede añadir más saldo",
+              "Function": "AnadirSaldo",
+              "NextStates": [ "PrecioFijado" ],
+              "DisplayName": "Añadir saldo"
+            },
+            {
+              "AllowedRoles": [  ],
+              "AllowedInstanceRoles": ["Comprador"],
+              "Description": "Comprar Kw",
+              "Function": "RealizarCompra",
+              "NextStates": [ "EnergiaDisponible" ],
+              "DisplayName": "Realizar compra"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Vendedor" ],
+              "Description": "El vendedor puede añadir kw disponibles para vender",
+              "Function": "AnadirKw",
+              "NextStates": [ "PrecioFijado" ],
+              "DisplayName": "Añadir Kw"
+            }
+          ]
+        },
+        {
+          "Name": "EnergiaDisponible",
+          "DisplayName": "Energía disponible",
+          "Description": "El consumidor tiene Kw disponibles para gastar",
+          "PercentComplete": 75,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "Comprar Kw",
+              "Function": "RealizarCompra",
+              "NextStates": [ "EnergiaDisponible" ],
+              "DisplayName": "Realizar compra"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "gastar Kw",
+              "Function": "GastarKw",
+              "NextStates": [ "EnergiaEnUso"],
+              "DisplayName": "Gastar Kw"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "gastar en carga",
+              "Function": "GastarEnCargar",
+              "NextStates": [ "EnergiaEnUso"],
+              "DisplayName": "Gastar en carga"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Vendedor" ],
+              "Description": "El vendedor puede añadir kw disponibles para vender",
+              "Function": "AnadirKw",
+              "NextStates": [ "EnergiaDisponible" ],
+              "DisplayName": "Añadir Kw"
+            }
+          ]
+        },
+        {
+          "Name": "EnergiaEnUso",
+          "DisplayName": "Energía en uso",
+          "Description": "El consumidor está gastando los Kw de los que dispone ",
+          "PercentComplete": 100,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "Comprar Kw",
+              "Function": "RealizarCompra",
+              "NextStates": [ "EnergiaDisponible" ],
+              "DisplayName": "Realizar compra"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "gastar Kw",
+              "Function": "GastarKw",
+              "NextStates": [ "EnergiaEnUso"],
+              "DisplayName": "Gastar Kw"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "gastar en carga",
+              "Function": "GastarEnCargar",
+              "NextStates": [ "EnergiaEnUso"],
+              "DisplayName": "Gastar en carga"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Vendedor" ],
+              "Description": "El vendedor puede añadir kw disponibles para vender",
+              "Function": "AnadirKw",
+              "NextStates": [ "EnergiaEnUso" ],
+              "DisplayName": "Añadir Kw"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "Terminar el ciclo",
+              "Function": "Terminar",
+              "NextStates": [ "Terminado"],
+              "DisplayName": "Terminar"
+            }
+          ]
+        },
+        {
+          "Name": "Terminado",
+          "DisplayName": "Terminado",
+          "PercentComplete": 0,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Comprador" ],
+              "Description": "El comprador puede añadir más saldo",
+              "Function": "AnadirSaldo",
+              "NextStates": [ "PendienteDeCompra" ],
+              "DisplayName": "Añadir saldo"
+            },
+            {
+              "AllowedRoles": [],
+              "AllowedInstanceRoles": [ "Vendedor" ],
+              "Description": "El vendedor puede añadir kw disponibles para vender",
+              "Function": "AnadirKw",
+              "NextStates": [ "Terminado" ],
+              "DisplayName": "Añadir Kw"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
